@@ -1,66 +1,97 @@
 # Protótipo Top-Down Idle Tycoon (Godot 4)
 
-Este repositório contém a **estrutura base e a lógica** para um protótipo 2D Top-Down com mecânicas Idle Tycoon.
+## Resposta rápida (o que você precisa para jogar)
 
-## Sistemas implementados
+Você **não precisa baixar jogo pronto daqui**.
+Este repositório tem **scripts (código)** para montar o protótipo no Godot.
 
-- Movimento do jogador + câmera 2D adaptável.
-- Interação com patos por clique rápido/longo.
-- Áudio espacial por distância jogador↔pato.
-- Loja com atualização de estoque a cada 20s e notificação no carrinho.
-- Compra do item **Amogus** com inventário em UI.
-- Plantio do item no chão para gerar renda passiva (+10 a cada 20s).
+Para jogar, você tem 2 caminhos:
 
-## Estrutura
+1. **Mais fácil (recomendado):** pedir para alguém te enviar o projeto Godot já montado (`.zip` com cenas prontas).
+2. **Manual:** você mesmo cria o projeto no Godot e conecta os scripts deste repositório.
 
-- `scripts/GameManager.gd`: estados globais do jogo (moedas, inventário, loja).
-- `scripts/player/PlayerController.gd`: movimentação top-down.
-- `scripts/player/CameraFollow.gd`: câmera seguindo jogador.
-- `scripts/world/DuckNPC.gd`: clique rápido/longo + áudio espacial.
-- `scripts/ui/ShopUI.gd`: UI da loja, compra e notificação.
-- `scripts/ui/InventoryUI.gd`: slot visual do inventário.
-- `scripts/ui/CoinsUI.gd`: placar de moedas em tempo real.
-- `scripts/tycoon/PlacementController.gd`: plantio no mapa.
-- `scripts/tycoon/TycoonPlant.gd`: cronômetro de renda passiva.
+---
 
-## Como configurar no Godot (uma vez)
+## Opção 1 — Quero o jogo pronto (mais fácil)
 
-1. **Abra o projeto** no Godot 4.
-2. Em **Project > Project Settings > Autoload**, adicione `scripts/GameManager.gd` com o nome `GameManager`.
-3. Monte sua cena principal com os nós e scripts:
-   - Player (`CharacterBody2D`) com `scripts/player/PlayerController.gd`.
-   - Câmera (`Camera2D`) com `scripts/player/CameraFollow.gd`.
-   - Pato(s) (`Area2D`) com `scripts/world/DuckNPC.gd`.
-   - Controlador de plantio (Node/Node2D) com `scripts/tycoon/PlacementController.gd`.
-   - UI da loja com `scripts/ui/ShopUI.gd`.
-   - UI do inventário com `scripts/ui/InventoryUI.gd`.
-   - UI de moedas com `scripts/ui/CoinsUI.gd`.
-4. Configure os Inputs no projeto:
-   - `move_up`, `move_down`, `move_left`, `move_right`
-   - `interact_click`
-5. No Inspector, ajuste os `@export` de cada script (referências de nós, sprites, áudio e distâncias).
+Peça um arquivo `.zip` do projeto Godot já configurado, contendo:
 
-## Como jogar (passo a passo)
+- `project.godot`
+- pasta `scenes/` (cenas prontas)
+- pasta `scripts/` (estes scripts)
+- pasta `assets/` (imagens/sons)
 
-1. Rode a cena principal com **F5** (ou **F6** se ela já estiver aberta).
-2. Ande com o personagem usando as teclas configuradas (`move_*`, normalmente WASD/setas).
-3. Clique nos patos:
-   - Clique curto (**menos de 0,5s**) toca som curto.
-   - Clique longo (**mais de 0,5s**) toca som longo.
-4. Espere até **20 segundos** para a loja atualizar estoque (o carrinho entra em alerta).
-5. Clique no carrinho para abrir a loja.
-6. Clique em **Obter** para pegar o item **Amogus**:
-   - A loja fecha.
-   - O alerta do carrinho apaga.
-   - O item aparece no inventário.
-7. Com o item no inventário, clique em um espaço livre da grama para plantar.
-8. Após plantar, o item começa a gerar renda passiva:
-   - A cada **20 segundos** toca um som no mapa.
-   - Você recebe **+10 moedas** no placar.
+Depois:
 
-## Dicas de debug rápido
+1. Abra o Godot 4.
+2. Clique em **Import**.
+3. Selecione o arquivo `project.godot` da pasta extraída.
+4. Clique em **Run Project (F5)**.
 
-- Se não mover: confira os Inputs `move_*`.
-- Se a loja não abrir: valide os caminhos de nós exportados no `ShopUI.gd`.
-- Se pato não tocar som: confira os `AudioStreamPlayer2D` e as referências do player no `DuckNPC.gd`.
-- Se não plantar: cheque o `PlacementController.gd` (área válida + item no inventário).
+Se você **não tem** esse `.zip`, use a Opção 2.
+
+---
+
+## Opção 2 — Montar manualmente no Godot (com estes scripts)
+
+### 1) Criar projeto
+
+1. Abra o Godot 4.
+2. Clique em **New Project**.
+3. Escolha uma pasta e crie o projeto.
+
+### 2) Copiar scripts
+
+Copie a pasta `scripts/` deste repositório para dentro do seu projeto Godot.
+
+### 3) Configurar Autoload
+
+1. Abra **Project > Project Settings > Autoload**.
+2. Adicione `scripts/GameManager.gd` com nome **GameManager**.
+
+### 4) Configurar Inputs
+
+Em **Project > Project Settings > Input Map**, crie:
+
+- `move_up`
+- `move_down`
+- `move_left`
+- `move_right`
+- `interact_click`
+
+### 5) Criar cena principal e ligar scripts
+
+Você precisa criar nós e anexar:
+
+- Player (`CharacterBody2D`) -> `scripts/player/PlayerController.gd`
+- Camera (`Camera2D`) -> `scripts/player/CameraFollow.gd`
+- Duck (`Area2D`) -> `scripts/world/DuckNPC.gd`
+- PlacementController (`Node2D`) -> `scripts/tycoon/PlacementController.gd`
+- ShopUI (`CanvasLayer`) -> `scripts/ui/ShopUI.gd`
+- InventoryUI (`CanvasLayer`) -> `scripts/ui/InventoryUI.gd`
+- CoinsUI (`CanvasLayer`) -> `scripts/ui/CoinsUI.gd`
+
+Também precisa colocar os nós filhos esperados (ex.: `AudioStreamPlayer2D` no pato e na planta, botões/labels da UI) e preencher os `@export` no Inspector.
+
+### 6) Rodar
+
+Pressione **F5** para jogar.
+
+---
+
+## Gameplay (depois que estiver montado)
+
+1. Ande com o personagem.
+2. Clique curto no pato (< 0,5s) toca som curto.
+3. Clique longo no pato (> 0,5s) toca som longo.
+4. Espere 20s para a loja entrar em alerta.
+5. Abra loja no carrinho e clique em **Obter**.
+6. Item vai para inventário.
+7. Clique no chão para plantar.
+8. A cada 20s, ganha +10 moedas.
+
+---
+
+## Importante
+
+Se você quiser, eu posso te passar na próxima mensagem um **passo a passo com print mental da árvore de nós** (nome de cada nó certinho), para você só copiar e funcionar.
