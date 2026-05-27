@@ -1,0 +1,31 @@
+; Engine configuration file.
+config_version=5
+
+[application]
+config/name="Joguinho Prototype"
+run/main_scene="res://scenes/Main.tscn"
+
+[autoload]
+GameManager="*res://scripts/GameManager.gd"
+
+[input]
+move_up={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"device":-1,"pressed":false,"keycode":87)]
+}
+move_down={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"device":-1,"pressed":false,"keycode":83)]
+}
+move_left={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"device":-1,"pressed":false,"keycode":65)]
+}
+move_right={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"device":-1,"pressed":false,"keycode":68)]
+}
+interact_click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"device":-1,"button_index":1)]
+}
